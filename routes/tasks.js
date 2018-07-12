@@ -27,13 +27,13 @@ router.get('/tasks/:id', function(req, res, next){
 // Save Task
 router.post('/task', function(req, res, next){
   var task = req.body;
-  if(!task.title || (task.isDone + '')){
+  if(!task.title || !(task.isDone + '')){
     res.status(400);
     res.json({
       "error": "bad data"
     });
   } else {
-    db.tasks.save(task, function(error, task){
+    db.tasks.save(task, function(err, task){
       if(err){
         res.send(err);
       }
@@ -44,7 +44,7 @@ router.post('/task', function(req, res, next){
 
 // Delete Task
 
-router.delete('/tasks/:id', function(req, res, next){
+router.delete('/task/:id', function(req, res, next){
   db.tasks.remove({_id: mongojs.ObjectId(req.params.id)}, function(err, task){
     if(err){
       res.send(err);
@@ -54,7 +54,7 @@ router.delete('/tasks/:id', function(req, res, next){
 });
 
 // Update Task
-router.put('/tasks/:id', function(req, res, next){
+router.put('/task/:id', function(req, res, next){
   var task = req.body;
   var updTask = {};
 
